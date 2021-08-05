@@ -7,9 +7,9 @@ using System.Xml;
 
 namespace Core.Utilities.Writer
 {
-    public class StreamWrite 
+    public class StreamWrite :IStreamWrite
     {
-        public static void StreamWriteWriteLine(List<string> xmlText)
+        public  void StreamWriteWriteLine(List<string> xmlText)
         {
             var path = @"C:\Users\Lenovo\Desktop\ParseRec.txt";
             File.AppendAllLines(path, xmlText);

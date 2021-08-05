@@ -1,4 +1,6 @@
 ﻿using Core.Utilities.Parser;
+using Core.Utilities.Writer;
+using Core.Utilities.WepRequest;
 using System;
 
 namespace ConsoleUI
@@ -11,7 +13,7 @@ namespace ConsoleUI
         }
         private static void test()
         {
-            XmlParser xmlParser = new XmlParser();
+            XmlParser xmlParser = new XmlParser(new StreamWrite(),new WepRequestt());
             xmlParser.XmlParserr();
 
         }

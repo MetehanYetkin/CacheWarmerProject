@@ -7,15 +7,23 @@ using System.Xml;
 
 namespace Core.Utilities.Parser
 {
-    public class XmlParser 
+    public class XmlParser
     {
+        IStreamWrite _streamWrite;
+        IWepRequest _wepRequest;
+        public XmlParser(IStreamWrite streamWrite, IWepRequest wepRequest)
+        {
+            _streamWrite = streamWrite;
+            _wepRequest = wepRequest;
+
+        }
+
         public void XmlParserr() 
         {
-            //StreamWrite streamWrite = new StreamWrite();
-           // WepRequestt wepRequestt = new WepRequestt();
+           
             String URLStringg = "https://bimarket.co.uk/sitemap_index.xml";
-            XmlTextReader readerr = new XmlTextReader(URLStringg);
 
+            XmlTextReader readerr = new XmlTextReader(URLStringg);
             List<string> xmlUrl = new List<string>();
 
             while (readerr.Read())
@@ -29,7 +37,6 @@ namespace Core.Utilities.Parser
                         {
                             Console.WriteLine(readerr.Value);
                             xmlUrl.Add(readerr.Value);
-                            // WepRequestt wepRequestt = new WepRequestt();
                         }
                         break;
 
@@ -42,7 +49,7 @@ namespace Core.Utilities.Parser
           
             foreach (var x in xmlUrl)
             {
-                String URLString = x;
+                string URLString = x;
                 XmlTextReader reader = new XmlTextReader(URLString);
 
                 while (reader.Read())
@@ -54,11 +61,16 @@ namespace Core.Utilities.Parser
                         case XmlNodeType.Text:
                             if (reader.Value.Contains("http"))
                             {
-                                Console.WriteLine(reader.Value);
-                                locUrl.Add(reader.Value);
-                                //WepRequestt wepRequestt = new WepRequestt();
-                            }//Display the text in each element.
-                          
+                                if (reader.Value.EndsWith("/"))
+                                {
+                                  Console.WriteLine(reader.Value);
+                                  locUrl.Add(reader.Value);
+                                  _wepRequest.CallUrl(reader.Value);
+                                }
+                                
+
+                            }
+
                             break;
 
 
@@ -66,9 +78,8 @@ namespace Core.Utilities.Parser
                 }
 
             }
-           
 
-            StreamWrite.StreamWriteWriteLine(locUrl);
+            _streamWrite.StreamWriteWriteLine(locUrl);
         }
     }
 }

@@ -1,21 +1,62 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Text;
 
 namespace Core.Utilities.WepRequest
 {
-    public class WepRequestt
+    public class WepRequestt:IWepRequest
     {
-        public static void CallUrl(string url)
+        public void CallUrl(string url)
         {
-            WebRequest request = HttpWebRequest.Create(url);
-            WebResponse response = request.GetResponse();
-            StreamReader reader = new StreamReader(response.GetResponseStream());
-            Console.WriteLine("Success request");
-            // string urlText = reader.ReadToEnd();
-            // Console.WriteLine(urlText);
+
+            System.Diagnostics.Stopwatch timer = new Stopwatch();
+
+            HttpWebRequest httpReq = (HttpWebRequest)WebRequest.Create(url);
+            timer.Start();
+            httpReq.AllowAutoRedirect = true;
+            
+
+
+            HttpWebResponse httpRes = (HttpWebResponse)httpReq.GetResponse();
+            timer.Stop();
+            TimeSpan timeTaken = timer.Elapsed;
+            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+            timeTaken.Hours, timeTaken.Minutes, timeTaken.Seconds,
+            timeTaken.Milliseconds / 10);
+            Console.WriteLine("Response Time " + elapsedTime);
+
+            if (httpRes.StatusCode == HttpStatusCode.OK)
+            {
+                Console.WriteLine("Status Code 200 : ");
+
+            }
+            else if (httpRes.StatusCode == HttpStatusCode.Moved)
+                {
+                    Console.WriteLine("Status Code 301 Url : " + url);
+                }
+
+                else if (httpRes.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    Console.WriteLine("Status Code 400 Url : " + url);
+                }
+               else if (httpRes.StatusCode == HttpStatusCode.Found)
+                {
+                    Console.WriteLine("Status Code 302 Url : " + url);
+
+                }
+                httpRes.Close();
+           
+            }
+            
+
+
+
+
+           
         }
     }
-}
+

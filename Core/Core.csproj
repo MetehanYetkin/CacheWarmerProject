@@ -5,4 +5,8 @@
     <UserSecretsId>4ea04589-85a2-47e0-aabb-16e68e2afedb</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+  </ItemGroup>
+
 </Project>
