@@ -2,6 +2,7 @@
 using Core.Utilities.Writer;
 using Core.Utilities.WepRequest;
 using System;
+using Core.Utilities.RequestsAtSpecifiedTimes;
 
 namespace ConsoleUI
 {
@@ -9,6 +10,10 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
+            Scheduler scheduler = new Scheduler();
+           scheduler.InitializeJobs();
+
+
             test();
         }
         private static void test()
