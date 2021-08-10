@@ -18,7 +18,7 @@ namespace Core.Utilities.RequestsAtSpecifiedTimes
                 .Build();
             var SendRequestTrigger = TriggerBuilder.Create()
                 .WithIdentity("SendRequestCron")
-                .StartAt(DateTime.UtcNow).WithSimpleSchedule(x => x.WithIntervalInSeconds(1000).RepeatForever())
+                .StartAt(DateTime.UtcNow).WithSimpleSchedule(x => x.WithIntervalInSeconds(2000).RepeatForever())
                 //.WithCronSchedule("* * * ? * *")
                 .Build();
 

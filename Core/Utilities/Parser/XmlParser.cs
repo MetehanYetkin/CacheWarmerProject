@@ -79,7 +79,7 @@ namespace Core.Utilities.Parser
 
             }
 
-            _streamWrite.StreamWriteWriteLine(locUrl);
+          //  _streamWrite.StreamWriteWriteLine(locUrl);
         }
     }
 }
