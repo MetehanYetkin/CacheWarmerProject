@@ -11,7 +11,7 @@ namespace ConsoleUI
         static void Main(string[] args)
         {
             Scheduler scheduler = new Scheduler();
-           scheduler.InitializeJobs();
+           scheduler.InitializeJobsForHour();
 
 
             test();

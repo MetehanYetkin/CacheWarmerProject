@@ -16,39 +16,59 @@ namespace Core.Utilities.WepRequest
             System.Diagnostics.Stopwatch timer = new Stopwatch();
 
             HttpWebRequest httpReq = (HttpWebRequest)WebRequest.Create(url);
+            httpReq.Timeout = 111110;
             timer.Start();
             httpReq.AllowAutoRedirect = true;
-            
 
-
-            HttpWebResponse httpRes = (HttpWebResponse)httpReq.GetResponse();
-            timer.Stop();
-            TimeSpan timeTaken = timer.Elapsed;
-            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
-            timeTaken.Hours, timeTaken.Minutes, timeTaken.Seconds,
-            timeTaken.Milliseconds / 10);
-            Console.WriteLine("Response Time " + elapsedTime);
-
-            if (httpRes.StatusCode == HttpStatusCode.OK)
+            try
             {
-                Console.WriteLine("Status Code 200 : ");
+                using (HttpWebResponse httpRes = (HttpWebResponse)httpReq.GetResponse())
+                {
+                    
+                    using (Stream answer = httpRes.GetResponseStream())
+                    {
+                        timer.Stop();
+                        TimeSpan timeTaken = timer.Elapsed;
+                        string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                        timeTaken.Hours, timeTaken.Minutes, timeTaken.Seconds,
+                        timeTaken.Milliseconds / 10);
+                        Console.WriteLine("Response Time " + elapsedTime);
 
+                        if (httpRes.StatusCode == HttpStatusCode.OK)
+                        {
+                            Console.WriteLine("Status Code 200 : ");
+
+                        }
+                        else if (httpRes.StatusCode == HttpStatusCode.Moved)
+                        {
+                            Console.WriteLine("Status Code 301 Url : " + url);
+                        }
+
+                        else if (httpRes.StatusCode == HttpStatusCode.BadRequest)
+                        {
+                            Console.WriteLine("Status Code 400 Url : " + url);
+                        }
+                        else if (httpRes.StatusCode == HttpStatusCode.Found)
+                        {
+                            Console.WriteLine("Status Code 302 Url : " + url);
+
+                        }
+                        httpRes.Close();
+                    }
+                }
             }
-            else if (httpRes.StatusCode == HttpStatusCode.Moved)
+            catch (WebException e)
+            {
+                if (e.Status == WebExceptionStatus.Timeout)
                 {
-                    Console.WriteLine("Status Code 301 Url : " + url);
+                    Console.WriteLine("Timeout Exception");
                 }
+                else throw;
+            }
 
-                else if (httpRes.StatusCode == HttpStatusCode.BadRequest)
-                {
-                    Console.WriteLine("Status Code 400 Url : " + url);
-                }
-               else if (httpRes.StatusCode == HttpStatusCode.Found)
-                {
-                    Console.WriteLine("Status Code 302 Url : " + url);
-
-                }
-                httpRes.Close();
+            
+            
+           
            
             }
             

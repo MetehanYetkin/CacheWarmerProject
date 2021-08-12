@@ -8,7 +8,7 @@ namespace Core.Utilities.RequestsAtSpecifiedTimes
 {
    public class Scheduler
     {
-        public  async void InitializeJobs()
+        public  async void InitializeJobsForHour()
         {
             var _scheduler = await new StdSchedulerFactory().GetScheduler();
             await _scheduler.Start();
@@ -18,7 +18,7 @@ namespace Core.Utilities.RequestsAtSpecifiedTimes
                 .Build();
             var SendRequestTrigger = TriggerBuilder.Create()
                 .WithIdentity("SendRequestCron")
-                .StartAt(DateTime.UtcNow).WithSimpleSchedule(x => x.WithIntervalInSeconds(2000).RepeatForever())
+                .StartAt(DateTime.UtcNow).WithSimpleSchedule(x => x.WithIntervalInHours(1).RepeatForever())
                 //.WithCronSchedule("* * * ? * *")
                 .Build();
 
