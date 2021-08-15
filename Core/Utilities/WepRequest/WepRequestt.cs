@@ -13,18 +13,20 @@ namespace Core.Utilities.WepRequest
         public void CallUrl(string url)
         {
 
-            System.Diagnostics.Stopwatch timer = new Stopwatch();
+            Stopwatch timer = new Stopwatch();
 
             HttpWebRequest httpReq = (HttpWebRequest)WebRequest.Create(url);
             httpReq.Timeout = 111110;
-            timer.Start();
             httpReq.AllowAutoRedirect = true;
+            timer.Start();
+
 
             try
             {
                 using (HttpWebResponse httpRes = (HttpWebResponse)httpReq.GetResponse())
                 {
-                    
+
+
                     using (Stream answer = httpRes.GetResponseStream())
                     {
                         timer.Stop();
@@ -63,14 +65,11 @@ namespace Core.Utilities.WepRequest
                 {
                     Console.WriteLine("Timeout Exception");
                 }
-                else throw;
-            }
+                else Console.WriteLine("error"); 
 
-            
-            
-           
-           
             }
+            
+        }
             
 
 

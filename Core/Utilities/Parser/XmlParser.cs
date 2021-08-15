@@ -45,12 +45,12 @@ namespace Core.Utilities.Parser
                 }
             }
 
-            List<string> locUrl = new List<string>();
+           List<string> locUrl = new List<string>();
           
             foreach (var x in xmlUrl)
             {
-                string URLString = x;
-                XmlTextReader reader = new XmlTextReader(URLString);
+                
+                XmlTextReader reader = new XmlTextReader(x);
 
                 while (reader.Read())
                 {
@@ -71,7 +71,7 @@ namespace Core.Utilities.Parser
 
                             }
 
-                            break;
+                            break; 
 
 
                     }
@@ -79,7 +79,7 @@ namespace Core.Utilities.Parser
 
             }
 
-          //  _streamWrite.StreamWriteWriteLine(locUrl);
+            _streamWrite.StreamWriteWriteLine(locUrl);
         }
     }
 }
